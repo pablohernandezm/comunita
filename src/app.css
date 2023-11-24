@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply min-h-screen max-w-[100lvw] bg-gray-200;
+    }
+
+    a, .text-btn{
+        @apply text-rose-400
+    }
+
+    .brand-input {
+        @apply border-rose-400 border-2 w-full
+    }
+
+    .brand-btn {
+        @apply bg-rose-400 text-white font-bold hover:bg-rose-400 hover:tracking-wide
+    }
+
+    .translucid-btn{
+        @apply rounded-md p-4 opacity-50 focus:opacity-100 hover:opacity-100
+    }
+
+
+    .brand-input, .brand-btn{
+        @apply px-4 py-2 rounded hover:scale-[102%] focus:scale-[102%] focus:outline-rose-300 focus:outline-offset-2
+    }
+
+    .icon-link{
+        @apply flex flex-nowrap items-center gap-1
+    }
+
+    .fieldset{
+        @apply flex flex-col gap-2
+    }
+
+    .file-input-label ~ input[type='file']:is(:hover, :focus, :active){
+
+    }
+}
+
+details.collapse summary{
+    @apply flex
+}

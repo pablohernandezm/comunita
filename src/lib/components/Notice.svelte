@@ -1,0 +1,54 @@
+<script lang="ts">
+    import {nameInitials} from "$lib/utils";
+    import Avatar from "$lib/components/Avatar.svelte";
+    import {AlertTriangle, History} from 'lucide-svelte'
+
+    interface UserData{
+        name:string
+        email: string
+        avatarSrc?: string
+    }
+
+    interface Content{
+        title:string
+        body:string
+    }
+
+    export let user_data:UserData
+    export let content:Content;
+</script>
+
+<div class="relative">
+    <details class="collapse gap-4 rounded-lg p-4 bg-base-100 border border-rose-400">
+
+        <summary class="collapse-title text-lg gap-1 items-center text-warning">
+            <AlertTriangle/>
+            {content.title}
+        </summary>
+
+        <div class="collapse-content flex flex-col gap-4">
+            <div>
+                {content.body}
+            </div>
+
+            <div class="flex gap-1 items-center">
+                <Avatar src="{user_data.avatarSrc??''}" fallBackText={nameInitials(user_data.name)} />
+
+                <div>
+                    <strong>{user_data.name}</strong>
+                    <p class="text-zinc-700 flex items-center gap-1">
+                        <span>{user_data.email}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <div class="absolute bottom-2 right-2">
+        <div class="relative tooltip tooltip-left w-fit" data-tip="Ver historial de advertencias">
+            <a href="/">
+                <History/>
+            </a>
+        </div>
+    </div>
+</div>
