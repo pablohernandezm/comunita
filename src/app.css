@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: DMSans;
+    src: url("/fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf")  format("truetype");
+}
+
 @layer base {
     body {
         @apply min-h-screen max-w-[100lvw] bg-gray-200;
@@ -12,7 +17,7 @@
     }
 
     .brand-input {
-        @apply border-rose-400 border-2 w-full
+        @apply border-rose-400 border-2 w-full text-zinc-800
     }
 
     .brand-btn {
@@ -33,11 +38,7 @@
     }
 
     .fieldset{
-        @apply flex flex-col gap-2
-    }
-
-    .file-input-label ~ input[type='file']:is(:hover, :focus, :active){
-
+        @apply contents
     }
 }
 

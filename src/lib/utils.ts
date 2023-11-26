@@ -1,3 +1,6 @@
+import {writable} from "svelte/store";
+import type { Writable } from "svelte/store"
+
 export function nameInitials(name:string){
     const initialsArr = name.split(' ', 2);
 
@@ -36,4 +39,47 @@ export function dateDifference(date:Date):DateDifference{
         months:months,
         years:years
     };
+}
+
+function getFilesText(fileTextDefault:string, files:FileList|null){
+    let fileText:string=fileTextDefault;
+
+    if (files && files?.length>0){
+        fileText="";
+
+        for (let i=0; i<files?.length; i++) {
+            if(i>0){
+                fileText+=', ';
+            }
+            const file = files.item(i);
+            fileText+=file?.name;
+        }
+    }
+
+    return fileText;
+}
+export function createImageInput(defaultText="Sin imagen"){
+    const text=writable(defaultText);
+    const files:Writable<FileList|null>=writable(null)
+
+    const input = (node:HTMLInputElement) =>{
+        node.addEventListener('change', ()=>{
+            text.update(()=>getFilesText(defaultText, node.files))
+            files.update(()=>node.files)
+        })
+    }
+
+    return {
+        input,
+        text,
+        files,
+    }
+}
+
+export function check(node:HTMLInputElement){
+    node.onkeydown=(e:KeyboardEvent)=>{
+        if (e.key ==='Enter') {
+            node.checked = !node.checked;
+        }
+    }
 }

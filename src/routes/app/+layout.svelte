@@ -10,15 +10,20 @@
 
     /*Popover*/
     const{
-        elements: {trigger, content},
+        elements: {trigger, content, close},
         states: { open },
     } = createPopover({
         forceVisible: true,
     })
+
+    let id=1;
 </script>
-<header class="flex justify-between px-8 py-4 bg-white shadow-gray-200 shadow z-50">
-    <a href="/app" aria-label="Logo">
-        <Logo size={50}/>
+<header class="flex justify-between px-8 py-4 bg-white shadow-gray-200 shadow z-50 relative">
+    <a href="/app" aria-label="Logo" class="flex items-center gap-2">
+        <Logo size={36}/>
+        <span class="hidden text-3xl text-primary xs:inline-block bg-gradient-to-tr from-primary to-[#FFB033] via-primary text-transparent bg-clip-text font-DMSans lowercase">
+            Comunita
+        </span>
     </a>
 
     <div class="flex">
@@ -46,10 +51,10 @@
 
         <ul class="flex flex-col gap-2 pl-2">
             <li>
-                <a href="/profile" class="icon-link hover:underline text-emphasis1/90"><UserCircle2 size={16}/> Ver perfil</a>
+                <a use:melt={$close} href="/app/profile/{id}" class="icon-link hover:underline text-emphasis1/90"><UserCircle2 size={16}/> Ver perfil</a>
             </li>
             <li>
-                <a href="/logout" class="icon-link hover:underline text-emphasis1/90"><LogOut size={16}/>Cerrar sessión</a>
+                <a use:melt={$close} href="/app/logout{id}" class="icon-link hover:underline text-emphasis1/90"><LogOut size={16}/>Cerrar sessión</a>
             </li>
 
         </ul>

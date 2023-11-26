@@ -1,6 +1,6 @@
 <script lang="ts">
-    import {FileImage, Info} from "lucide-svelte";
-    export let fileInputHandler:HTMLInputElement;
+    import {Info} from "lucide-svelte";
+    import ImageInput from "$lib/components/ImageInput.svelte";
     export let needsFiles=false;
 
     export let title:string;
@@ -10,10 +10,12 @@
     export let textRequired=true;
 
     export let key:string;
+    import type {Writable} from "svelte/store";
+    let files:Writable<FileList|null>|undefined;
 </script>
 
 <input type="radio" name="post-tab" role="tab" class="tab" aria-label="{title}" checked/>
-<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6 w-full">
+<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6 w-full overflow-hidden">
     <h2 class="m-0 text-lg font-medium text-black">
         {title}
     </h2>
@@ -30,21 +32,16 @@
     <form action="{formAction}" class="flex flex-col gap-4 py-6">
         <fieldset class="fieldset">
             <label for="{key}-body">Escribe algo</label>
-            <textarea name="body" id="{key}-body" class="textarea textarea-bordered textarea-primary resize-y" required={textRequired}/>
+            <textarea name="body" id="{key}-body" class="textarea textarea-bordered textarea-primary resize-y w-full" required={textRequired}/>
         </fieldset>
 
         {#if needsFiles}
-            <fieldset class="fieldset">
-                <button type="button" class="input input-primary p-0 hover:cursor-pointer relative">
-                    <label for="{key}-images" class="flex flex-row items-center gap-2 hover:cursor-pointer h-full w-ful px-4">
-                        <FileImage size={24} class="text-rose-400"/>
-                        <span class="text-zinc-800 truncate">Escoge imágenes</span>
-                    </label>
-
-                    <input type="file" id="{key}-images" name="files" accept="image/jpeg, image/png" bind:this={fileInputHandler} hidden multiple={multipleImages}>
-                </button>
-
-            </fieldset>
+            <ImageInput
+                    bind:files={files}
+                    multiple={multipleImages}
+                    label="Añade imágenes"
+                    emptyText="Sin imágenes"
+                    containerStyle="flex flex-col gap-2"/>
         {/if}
 
         <button type="submit" class="btn btn-primary text-base-100 text-md">

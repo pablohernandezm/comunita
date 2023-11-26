@@ -60,11 +60,11 @@
                             <div id="{post_data.id}-img{i}" class="carousel-item relative overflow-hidden w-full">
                                 <img src="{image}" alt="Post image {i}" class="rounded-box max-w-md w-full">
 
-                                <a href="#{post_data.id}-img{(i+1)>=post_data.imagesSrc.length ? 0 : i+1}" class="text-white bg-black absolute right-1 top-1/2 translucid-btn">
+                                <a tabindex="-1" href="#{post_data.id}-img{(i+1)>=post_data.imagesSrc.length ? 0 : i+1}" class="text-white bg-black absolute right-1 top-1/2 translucid-btn">
                                     <ArrowRightCircle/>
                                 </a>
 
-                                <a href="#{post_data.id}-img{(i-1)<0 ? post_data.imagesSrc.length-1 : i-1}" class="text-white bg-black absolute left-1 top-1/2 translucid-btn">
+                                <a tabindex="-1" href="#{post_data.id}-img{(i-1)<0 ? post_data.imagesSrc.length-1 : i-1}" class="text-white bg-black absolute left-1 top-1/2 translucid-btn">
                                     <ArrowLeftCircle/>
                                 </a>
                             </div>

@@ -12,10 +12,10 @@
 <div class="relative rounded-lg overflow-clip bg-emphasis1 text-white flex-auto">
     <img class="absolute w-full h-full object-cover z-0 opacity-40 aspect-square" src="{bannerSrc}" alt="Banner">
 
-    <div class="relative z-10 p-2">
-        <div class="flex items-center gap-3">
+    <div class="relative z-10 p-2 flex flex-col px-4 pt-4">
+        <div class="flex items-center gap-3 w-full">
             <Avatar src="{adminAvatarSrc} " fallBackText="{nameInitials(name)}"></Avatar>
-            <h2 class="text-2xl font-bold">{name}</h2>
+            <h2 class="text-2xl font-bold w-full line-clamp-1">{name}</h2>
         </div>
 
         <p class="flex items-center gap-1 justify-end">

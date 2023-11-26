@@ -1,9 +1,9 @@
 <script lang="ts">
     import Dialog from "$lib/components/Dialog.svelte"
-    import {X, FileImage, PlusCircle} from 'lucide-svelte'
+    import ImageInput from "$lib/components/ImageInput.svelte";
+    import {X, PlusCircle} from 'lucide-svelte'
 
-    import CommunityCard from "./CommunityCard.svelte";
-    let fileInput:HTMLInputElement;
+    import CommunityCard from "$lib/components/CommunityCard.svelte";
 </script>
 
 <svelte:head>
@@ -13,7 +13,7 @@
 <main class="flex flex-col gap-4 m-4">
 
     <section class="bg-white py-4 px-4 rounded-lg">
-        <div class="flex gap-4 items-center flex-wrap-reverse justify-between">
+        <div class="flex gap-4 items-center flex-wrap justify-between">
             <h2 class="flex text-emphasis1 font-bold text-2xl  h-full">Tus comunidades</h2>
             <div class="text-rose-400 flex items-center">
                 <Dialog>
@@ -41,16 +41,7 @@
                                 <textarea class="brand-input" name="description" id="description"></textarea>
                             </fieldset>
 
-                            <fieldset>
-                                <button class="flex flex-col gap-1 brand-input" on:click={()=>{fileInput.click();}}>
-                                    <label for="banner" class=" flex flex-row items-center gap-2 hover:cursor-pointer">
-                                        <FileImage size={24} class="text-rose-400"/>
-                                        <span class="text-zinc-800">Escoge un archivo</span>
-                                    </label>
-
-                                    <input type="file" id="banner" accept="image/jpeg, image/png" bind:this={fileInput} hidden>
-                                </button>
-                            </fieldset>
+                            <ImageInput styles="brand-input" emptyText="Sin banner"/>
 
                             <button type="submit" class="brand-btn">Crear</button>
                         </form>

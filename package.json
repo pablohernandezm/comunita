@@ -1,5 +1,5 @@
 {
-	"name": "communicate",
+	"name": "comunita",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
@@ -15,6 +15,7 @@
 		"@melt-ui/pp": "^0.1.4",
 		"@melt-ui/svelte": "^0.62.0",
 		"@sveltejs/adapter-auto": "^2.0.0",
+		"@sveltejs/enhanced-img": "^0.1.5",
 		"@sveltejs/kit": "^1.27.4",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",

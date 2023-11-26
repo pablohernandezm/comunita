@@ -21,9 +21,11 @@
 <div class="relative">
     <details class="collapse gap-4 rounded-lg p-4 bg-base-100 border border-rose-400">
 
-        <summary class="collapse-title text-lg gap-1 items-center text-warning">
-            <AlertTriangle/>
-            {content.title}
+        <summary class="collapse-title text-lg text-warning gap-2">
+            <AlertTriangle class="flex-shrink-0 my-0.5"/>
+            <span>
+                {content.title}
+            </span>
         </summary>
 
         <div class="collapse-content flex flex-col gap-4">
@@ -34,10 +36,10 @@
             <div class="flex gap-1 items-center">
                 <Avatar src="{user_data.avatarSrc??''}" fallBackText={nameInitials(user_data.name)} />
 
-                <div>
-                    <strong>{user_data.name}</strong>
+                <div class="overflow-hidden w-full">
+                    <strong class="truncate block">{user_data.name}</strong>
                     <p class="text-zinc-700 flex items-center gap-1">
-                        <span>{user_data.email}</span>
+                        <span class="truncate">{user_data.email}</span>
                     </p>
                 </div>
             </div>
