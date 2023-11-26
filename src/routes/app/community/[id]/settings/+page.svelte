@@ -1,14 +1,13 @@
 <script lang="ts">
-    /*import { nameInitials} from "$lib/utils";
-    import Avatar from "$lib/components/Avatar.svelte";*/
-
-    import {Settings2, Users} from 'lucide-svelte'
+    import {Settings2} from 'lucide-svelte'
     import ImageInput from "$lib/components/ImageInput.svelte";
     import Collapse from "$lib/components/Collapse.svelte";
     export let data;
+
+    import MembersList from "../MembersList.svelte";
 </script>
 
-<main class="p-2 xs:p-4 flex flex-col gap-4 items-center">
+<main class="p-2 xs:p-4 flex flex-col gap-4 items-center w-full max-w-3xl">
     <Collapse>
         <div slot="title" class="contents">
             <Settings2 class="h-6 flex-shrink-0"/>
@@ -34,38 +33,5 @@
         </div>
     </Collapse>
 
-    <Collapse>
-        <div slot="title" class="contents">
-            <Users class="h-6 flex-shrink-0"/>
-            <h2 class="truncate text-xl font-medium">
-                Miembros
-            </h2>
-        </div>
-
-        <div slot="content">
-            <div>
-                <h3 class="w-full text-md font-medium">Adminisradores</h3>
-
-                <div>
-                    ---
-                </div>
-            </div>
-
-            <div>
-                <h3 class="w-full text-md font-medium">Moderadores</h3>
-
-                <div>
-                    ---
-                </div>
-            </div>
-
-            <div>
-                <h3 class="w-full text-md font-medium">Otros miembros</h3>
-
-                <div>
-                    ---
-                </div>
-            </div>
-        </div>
-    </Collapse>
+    <MembersList {data}/>
 </main>

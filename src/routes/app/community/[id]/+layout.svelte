@@ -1,41 +1,106 @@
 <script lang="ts">
-    import {Settings, Link, Users} from 'lucide-svelte'
+    import {Settings, Link, Users, Info, ChevronDownSquare, ChevronUpSquare, CalendarDays} from 'lucide-svelte'
+    import Collapse from "$lib/components/Collapse.svelte";
+    import { createCollapsible, melt } from '@melt-ui/svelte';
+    import {slide} from "svelte/transition";
+
     export let data;
+
+    const {
+        elements: { root, content, trigger },
+        states: { open },
+    } = createCollapsible();
 </script>
 
 <header class="relative bg-white">
     <img src="{data.bannerSrc}" alt="Banner" class="w-full h-60 object-cover">
 
-    <div class="p-6 flex justify-between flex-col gap-4 sm:flex-row w-full">
-        <div class="flex flex-col">
-            <a href="/app/community/{data.id}">
-                <h1 class="text-4xl font-bold text-zinc-900">
-                    {data.name}
-                </h1>
-            </a>
-
-            <div class="flex items-center gap-1">
-                <Users size={16}/>
-                1 miembro
-            </div>
-        </div>
+    <div class="py-6 px-8 flex justify-between flex-col gap-4 sm:flex-row w-full flex-wrap">
+        <a href="/app/community/{data.id}">
+            <h1 lang="es" class="text-4xl font-bold text-zinc-900 break-all line-clamp-2">
+                {data.community_name}
+            </h1>
+        </a>
 
         <div class="flex gap-2 h-fit">
-            <div class="tooltip tooltip-bottom tooltip-info" data-tip="Configuración">
-                <a href="/app/community/{data.id}/settings" class="flex bg-rose-400 p-2 rounded-lg text-white">
-                    <Settings size={20}/>
-                </a>
-            </div>
+           <div class="flex gap-2 flex-wrap">
+               <div class="lg:tooltip tooltip-bottom tooltip-info flex-1" data-tip="Configuración">
+                   <a href="/app/community/{data.id}/settings" class="flex bg-rose-400 p-2 rounded-lg text-white items-center gap-1 w-full">
+                       <Settings size={20}/>
+                       <span class="hidden md:inline">Configuración</span>
+                   </a>
+               </div>
 
-            <div class="tooltip tooltip-bottom tooltip-info" data-tip="Compartir">
-                <button class="bg-rose-400 p-2 rounded-lg text-white">
-                    <Link size={20}/>
-                </button>
-            </div>
+               <div class="lg:tooltip tooltip-bottom tooltip-info flex-1" data-tip="Compartir">
+                   <button class="bg-rose-400 p-2 rounded-lg text-white flex gap-1 items-center w-full">
+                       <Link size={20}/>
+                       <span class="hidden md:inline">Enlaces</span>
+                   </button>
+               </div>
+
+               <div class="lg:tooltip tooltip-bottom tooltip-info flex-1" data-tip="Miembros">
+                   <a href="/app/community/{data.id}/members" class="flex bg-rose-400 p-2 rounded-lg text-white items-center gap-1 w-full">
+                       <Users size={20}/>
+                       <span class="hidden md:inline">Miembros</span>
+                   </a>
+               </div>
+
+               <div class="flex items-center xl:hidden">
+                   <button class="text-emphasis1 w-full" use:melt={$trigger}>
+                       {#if $open}
+                           <ChevronUpSquare size={30}/>
+                       {:else}
+                           <ChevronDownSquare size={30}/>
+                       {/if}
+                   </button>
+               </div>
+           </div>
         </div>
 
     </div>
 
+    <div use:melt={$root}>
+        {#if $open}
+            <div class="flex flex-col gap-6 p-6" use:melt={$content} transition:slide>
+                {data.description}
+
+                <div class="flex gap-2 items-center">
+                    <CalendarDays/>
+                    {data.creation_date.toLocaleDateString()}
+                </div>
+            </div>
+        {/if}
+    </div>
 </header>
 
-<slot></slot>
+<div class="grid justify-items-center xl:grid-cols-[2fr_1fr]">
+    <div class="p-6 max-w-lg-full order-1 hidden xl:flex xl:order-2">
+        <div class="h-full relative">
+            <div class="sticky top-8 flex flex-col gap-4">
+                <Collapse>
+                    <div class="contents" slot="title">
+                        <h2 class="flex gap-1 text-lg font-bold items-center w-full">
+                            Descripción
+                            <Info/>
+                        </h2>
+                    </div>
+
+                    <div class="contents" slot="content">
+                        <div class="flex flex-col gap-6">
+                            {data.description}
+
+                            <div class="flex gap-2 items-center">
+                                <CalendarDays/>
+                                {data.creation_date.toLocaleDateString()}
+                            </div>
+                        </div>
+                    </div>
+                </Collapse>
+            </div>
+        </div>
+    </div>
+
+    <div class="order-2 xl:order-1 w-full flex justify-center">
+        <slot/>
+    </div>
+</div>

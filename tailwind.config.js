@@ -7,6 +7,7 @@ export default {
         emphasis1: '#002C3F',
       },
     },
+
     fontFamily:{
       DMSans: "DMSans"
     },
