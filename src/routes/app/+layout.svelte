@@ -6,7 +6,7 @@
     import {LogOut, UserCircle2} from 'lucide-svelte'
     import {nameInitials} from '$lib/utils'
     export let data;
-    let initials = nameInitials(data.name);
+    let initials = nameInitials(data.session_name);
 
     /*Popover*/
     const{
@@ -32,7 +32,7 @@
         </button>
 
         <button type="button" aria-label="Opciones de usuario" use:melt={$trigger}>
-            <Avatar src={data.avatarUrl} fallBackText={initials}></Avatar>
+            <Avatar src={data.session_avatarUrl} fallBackText={initials}></Avatar>
         </button>
     </div>
 </header>
@@ -41,11 +41,11 @@
     <div use:melt={$content} transition:fade={{duration: 100}} class="flex z-50 flex-col px-4 py-4 bg-white gap-4 border border-zinc-200 translate-y-2 rounded-md">
 
         <div class="flex gap-4">
-            <Avatar src={data.avatarUrl} fallBackText={initials}></Avatar>
+            <Avatar src={data.session_avatarUrl} fallBackText={initials}></Avatar>
 
             <div class="flex flex-col gap-0 text-lg">
-                <p class="font-bold text-emphasis1">{data.name}</p>
-                <small class="font-thin text-sm">{data.email}</small>
+                <p class="font-bold text-emphasis1">{data.session_name}</p>
+                <small class="font-thin text-sm">{data.session_email}</small>
             </div>
         </div>
 

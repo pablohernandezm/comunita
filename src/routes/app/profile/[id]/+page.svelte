@@ -1,11 +1,12 @@
 <script lang="ts">
     import { nameInitials} from "$lib/utils";
     import Avatar from "$lib/components/Avatar.svelte";
-    import {Mail, Settings2, HeartHandshake} from 'lucide-svelte'
+    import {Mail, Settings2, HeartHandshake, Cake} from 'lucide-svelte'
     import ImageInput from "$lib/components/ImageInput.svelte";
     import DefaultBanner from '$lib/media/default-banner.png?enhanced'
     import CommunityCard from "$lib/components/CommunityCard.svelte";
     import {check} from '$lib/utils'
+    import Collapse from "$lib/components/Collapse.svelte";
     export let data;
 </script>
 
@@ -18,85 +19,102 @@
 
             <div class="flex gap-4 items-center relative pt-20 justify-center">
                 <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-8 border-base-100/50">
-                    <Avatar src="{data.avatarUrl}" fallBackText="{nameInitials(data.name)}" classes="w-[100px] h-[100px]"/>
+                    <Avatar src="{data.session_avatarUrl}" fallBackText="{nameInitials(data.session_name)}" classes="w-[100px] h-[100px]"/>
                 </div>
 
-                <h1 class="text-xl font-bold text-zinc-900 truncate leading-snug">{data.name}</h1>
+                <h1 class="text-xl font-bold text-zinc-900 truncate leading-snug">{data.session_name}</h1>
             </div>
 
             <div class="my-4">
-                {data.biography}
+                {data.session_biography}
             </div>
 
-            <a href="mailto:{data.email}" class="link-hover truncate text-primary flex items-center gap-1">
-                <span class="shrink-0"><Mail size={18}/></span>
-                <span class="truncate">{data.email}</span>
-            </a>
+            <div class="pl-4">
+                {#if data.session_email}
+                    <a href="mailto:{data.session_email}" class="link-hover truncate flex items-center gap-1 text-emphasis1">
+                        <span class="shrink-0"><Mail size={18}/></span>
+                        <span class="truncate">{data.session_email}</span>
+                    </a>
+                {/if}
+
+                {#if data.session_birthday}
+                    <div class="flex gap-1 items-center text-emphasis1">
+                        <span class="shrink-0"><Cake size={18}/></span>
+                        <span class="truncate">{data.session_birthday}</span>
+                    </div>
+                {/if}
+            </div>
         </div>
 
-        <div class="collapse bg-base-100">
-            <input type="checkbox" name="settings" class="cursor-pointer" use:check/>
+        {#if data.owner}
+            <div class="collapse bg-base-100">
+                <input type="checkbox" name="settings" class="cursor-pointer" use:check/>
 
-            <div class="collapse-title text-xl font-medium overflow-hidden flex gap-1 p-6 sm:justify-between sm:flex-row-reverse items-center">
-                <Settings2 class="h-6 flex-shrink-0"/>
-                <h2 class="truncate">
-                    Configuración
-                </h2>
-            </div>
-            <div class="collapse-content px-6 overflow-hidden">
-                <div class="flex flex-col xs:px-10 xs:items-center">
-                    <form action="?modify" class="flex flex-col gap-3 max-w-md xs:w-96">
-                        <div class="flex flex-col gap-1">
-                            <fieldset class="contents">
-                                <label for="name-input">Nombre</label>
-                                <input type="text" name="Nombre" id="name-input" class="input input-primary">
-                            </fieldset>
-                        </div>
+                <div class="collapse-title text-xl font-medium overflow-hidden flex gap-1 p-6 sm:justify-between sm:flex-row-reverse items-center">
+                    <Settings2 class="h-6 flex-shrink-0"/>
+                    <h2 class="truncate">
+                        Configuración
+                    </h2>
+                </div>
+                <div class="collapse-content px-6 overflow-hidden">
+                    <div class="flex flex-col xs:px-10 xs:items-center">
+                        <form action="?modify" class="flex flex-col gap-3 max-w-md xs:w-96">
+                            <div class="flex flex-col gap-1">
+                                <fieldset class="contents">
+                                    <label for="name-input">Nombre</label>
+                                    <input type="text" name="Nombre" id="name-input" class="input input-primary">
+                                </fieldset>
+                            </div>
 
-                        <div class="flex flex-col gap-1">
-                            <fieldset class="contents">
-                                <label for="biography-input">Nombre</label>
-                                <textarea name="biography" id="biography-input" class="textarea textarea-primary"></textarea>
-                            </fieldset>
-                        </div>
+                            <div class="flex flex-col gap-1">
+                                <fieldset class="contents">
+                                    <label for="biography-input">Nombre</label>
+                                    <textarea name="biography" id="biography-input" class="textarea textarea-primary"></textarea>
+                                </fieldset>
+                            </div>
 
-                        <div class="flex flex-col gap-1">
-                            <fieldset class="contents">
-                                <label for="date-input">Fecha de nacimiento</label>
-                                <input type="date" class="input input-primary" id="date-input">
-                            </fieldset>
-                        </div>
+                            <div class="flex flex-col gap-1">
+                                <fieldset class="contents">
+                                    <label for="date-input">Fecha de nacimiento</label>
+                                    <input type="date" class="input input-primary" id="date-input">
+                                </fieldset>
+                            </div>
 
-                        <ImageInput label="Foto de perfil" emptyText="Sin cambios" name="avatar"/>
+                            <ImageInput label="Foto de perfil" emptyText="Sin cambios" name="avatar"/>
 
-                        <ImageInput label="Banner" emptyText="Sin cambios" name="banner"/>
+                            <ImageInput label="Banner" emptyText="Sin cambios" name="banner"/>
 
-                        <button type="submit" class="btn btn-primary text-base-100 text-lg">Guardar</button>
-                    </form>
+                            <button type="submit" class="btn btn-primary text-base-100 text-lg">Guardar</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        {/if}
     </div>
 
     <div class="max-w-2xl w-full">
-        <div class="collapse collapse-arrow bg-base-100 p-8 rounded-2xl  z-10 relative">
-            <input type="radio" name="recent-posts" checked use:check/>
-            <div class="collapse-title text-xl font-medium flex items-center gap-2 text-emphasis1">
-                <HeartHandshake/>
-                <h2>Comunidades en común</h2>
+        <Collapse checked={true}>
+            <div class="contents" slot="title">
+                <div class="text-xl font-medium flex items-center gap-2 text-emphasis1 w-full">
+                    <HeartHandshake/>
+                    <h2>{data.owner?'Tus comunidades':'Comunidades en común'}</h2>
+                </div>
             </div>
-            <div class="collapse-content flex flex-col gap-4">
-                {#each data.communities as community}
-                    <a href="/app/community/{community.id}" class="">
-                        <CommunityCard
-                                name="{community.name}"
-                                n_members={community.n_members}
-                                bannerSrc="{community.banner}"
-                                adminAvatarSrc="{community.adminAvatarSrc}"
-                        />
-                    </a>
-                {/each}
+            <div class="contents" slot="content">
+                <div class="flex flex-col gap-4">
+                    {#each data.communities as community}
+                        <a href="/app/community/{community.id}" class="">
+                            <CommunityCard
+                                    name="{community.name}"
+                                    n_members={community.n_members}
+                                    bannerSrc="{community.banner}"
+                                    adminAvatarSrc="{community.adminAvatarSrc}"
+                            />
+                        </a>
+                    {/each}
+                </div>
             </div>
-        </div>
+        </Collapse>
+
     </div>
 </main>

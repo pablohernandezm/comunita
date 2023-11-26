@@ -27,10 +27,10 @@
                     <ul>
                         <li class="flex justify-center w-full">
                             <div class="flex items-center gap-4 w-full">
-                                <Avatar src="{data.avatarUrl}" fallBackText="{nameInitials(data.name)}" size={50}/>
+                                <Avatar src="{data.session_avatarUrl}" fallBackText="{nameInitials(data.session_name)}" size={50}/>
                                 <div class="text-md flex flex-col">
-                                    <strong>{data.name}</strong>
-                                    <em>{data.email}</em>
+                                    <strong>{data.session_name}</strong>
+                                    <em>{data.session_email}</em>
                                 </div>
                             </div>
 

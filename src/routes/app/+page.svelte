@@ -33,12 +33,12 @@
                         <form action="?/create" class="flex flex-col gap-4">
                             <fieldset class="flex flex-col gap-1">
                                 <label for="name">Nombre</label>
-                                <input class="brand-input" type="text" name="name" id="name">
+                                <input class="brand-input" type="text" name="name" id="name" required>
                             </fieldset>
 
                             <fieldset class="flex flex-col gap-1">
                                 <label for="description">Descripción</label>
-                                <textarea class="brand-input" name="description" id="description"></textarea>
+                                <textarea class="brand-input" name="description" id="description" required/>
                             </fieldset>
 
                             <ImageInput styles="brand-input" emptyText="Sin banner"/>

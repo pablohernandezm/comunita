@@ -36,7 +36,7 @@
                   info="Todos pueden ver tus publicaciones."
                   formAction="?/submit-post"
                   needsFiles={true}
-                  textRequired={false}
+                  textRequired={true}
                   key="1"
                   multipleImages={true}
         />
