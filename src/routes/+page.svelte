@@ -1,10 +1,67 @@
 <script lang="ts">
     import Logo from "$lib/components/Logo.svelte";
+    import {enhance} from "$app/forms";
+    import Toaster, {addToast} from '$lib/components/Toaster.svelte'
+
+    export let form;
 
     let isLogin = true;
 
     const toggleAction = () =>{
         isLogin = !isLogin;
+    }
+
+    $:action=isLogin?'?/login':'?/register';
+
+    $:if (form){
+        if (form.formatError){
+            addToast({
+                data:{
+                    title: form.formatError.title,
+                    description: form.formatError.description,
+                    color: 'red'
+                }
+            })
+        }
+        if (form.signInError){
+            addToast({
+                data:{
+                    title: 'Error al iniciar sesión',
+                    description: 'Credenciales incorrectas.',
+                    color:'red'
+                }
+            })
+        }
+
+        if (form.profileError){
+            addToast({
+                data:{
+                    title: 'Error al registrar el perfil.',
+                    description: 'Su perfil no ha sido registrado.',
+                    color: 'red'
+                }
+            })
+        }
+
+        if (form.signUpError){
+            addToast({
+                data:{
+                    title: `${form.signUpError.name}(${form.signUpError.status})`,
+                    description:form.signUpError.message,
+                    color:'red'
+                }
+            })
+        }
+
+        if(form.message){
+            addToast({
+                data: {
+                    title:form.message.title,
+                    description: form.message.description,
+                    color: 'green'
+                }
+            })
+        }
     }
 </script>
 
@@ -20,18 +77,18 @@
             <h1 class="font-bold text-3xl text-gray-900">Bienvenido</h1>
             <p>Ingresa a comunicate para continuar</p>
 
-            <form method="post" class="flex flex-col gap-2">
+            <form method="post" class="flex flex-col gap-2" {action} use:enhance>
             {#if !isLogin}
-                <input type="text" name="full_name" aria-label="full_name" class="brand-input" placeholder="Nombre completo">
+                <input type="text" name="name" aria-label="name" class="brand-input" placeholder="Nombre completo">
             {/if}
                 <input type="text" name="email" aria-label="email" class="brand-input" placeholder="Correo electrónico">
-                <input type="password" name="" aria-label="email" class="brand-input" placeholder="Contraseña">
+                <input type="password" name="password" aria-label="password" class="brand-input" placeholder="Contraseña">
 
                 <button type="submit" class="brand-btn">Continuar</button>
             </form>
 
             <p class="py-2">¿No tienes una cuenta?
-                <button class="text-btn focus:underline outline-none hover:underline" on:click={toggleAction}>
+                <button type="button" class="text-btn focus:underline outline-none hover:underline" on:click={toggleAction}>
                     {#if isLogin}
                         regístrate
                     {:else}
@@ -42,3 +99,5 @@
         </div>
     </div>
 </main>
+
+<Toaster />

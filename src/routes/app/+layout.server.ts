@@ -1,6 +1,13 @@
 import type {LayoutServerLoad} from "./$types";
+import {redirect} from "@sveltejs/kit";
 
-export const load:LayoutServerLoad = async() => {
+export const load:LayoutServerLoad = async({ parent }) => {
+    const data = await parent();
+
+    if (!data.session){
+        throw redirect(303, '/')
+    }
+
     return {
         session_id: "1",
         session_avatarUrl: 'https://i0.wp.com/lacarteleramx.com/wp-content/uploads/2022/11/33982df6-avatar-la-leyenda-aang-serie-netflix-fecha-estreno-lacarteleramx.jpg?resize=750%2C450&ssl=1',
