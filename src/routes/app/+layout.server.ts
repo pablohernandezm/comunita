@@ -1,19 +1,20 @@
-import type {LayoutServerLoad} from "./$types";
-import {redirect} from "@sveltejs/kit";
+import type { LayoutServerLoad } from "./$types";
+import { redirect } from "@sveltejs/kit";
 
-export const load:LayoutServerLoad = async({ parent }) => {
-    const data = await parent();
 
-    if (!data.session){
+export const load: LayoutServerLoad = async ({ locals: {supabase, getSession}}) => {
+    const session = await getSession();
+
+    if (!session) {
         throw redirect(303, '/')
     }
 
-    return {
-        session_id: "1",
-        session_avatarUrl: 'https://i0.wp.com/lacarteleramx.com/wp-content/uploads/2022/11/33982df6-avatar-la-leyenda-aang-serie-netflix-fecha-estreno-lacarteleramx.jpg?resize=750%2C450&ssl=1',
-        session_name: 'Pablo Hernández',
-        session_email: 'phernandezm07@gmail.com',
-        session_biography: `Hola, mi nombre es pablo hernández. Vivo en Cartagena/Colombia y estudio Ingeniería de Sistemas en la Universidad de Cartagena.`,
-        session_birthday: (new Date('2001-07-19')).toLocaleDateString(),
+    const { data: user } = await supabase.from('Profiles').select('*').eq('id', session.user.id).limit(1).single();
+
+    if (!user){
+        throw redirect(303, '/')
     }
+    return {
+        profile: user
+    };
 }

@@ -88,7 +88,7 @@ export const actions:Actions = {
         })
 
         if (error && error.status){
-
+            console.error(error);
             return fail(error.status, {
                 signUpError:{
                     title: `${error.name}(${error.status})`,

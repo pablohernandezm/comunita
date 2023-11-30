@@ -19,28 +19,28 @@
 
             <div class="flex gap-4 items-center relative pt-20 justify-center">
                 <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-8 border-base-100/50">
-                    <Avatar src="{data.session_avatarUrl}" fallBackText="{nameInitials(data.session_name)}" classes="w-[100px] h-[100px]"/>
+                    <Avatar src="{data.user_avatarUrl}" fallBackText="{nameInitials(data.user_name)}" classes="w-[100px] h-[100px]"/>
                 </div>
 
-                <h1 class="text-xl font-bold text-zinc-900 truncate leading-snug">{data.session_name}</h1>
+                <h1 class="text-xl font-bold text-zinc-900 truncate leading-snug">{data.user_name}</h1>
             </div>
 
             <div class="my-4">
-                {data.session_biography}
+                {data.user_biography ?? ''}
             </div>
 
             <div class="pl-4">
-                {#if data.session_email}
-                    <a href="mailto:{data.session_email}" class="link-hover truncate flex items-center gap-1 text-emphasis1">
+                {#if data.user_email}
+                    <a href="mailto:{data.user_email}" class="link-hover truncate flex items-center gap-1 text-emphasis1">
                         <span class="shrink-0"><Mail size={18}/></span>
-                        <span class="truncate">{data.session_email}</span>
+                        <span class="truncate">{data.user_email}</span>
                     </a>
                 {/if}
 
-                {#if data.session_birthday}
+                {#if data.user_birthDate}
                     <div class="flex gap-1 items-center text-emphasis1">
                         <span class="shrink-0"><Cake size={18}/></span>
-                        <span class="truncate">{data.session_birthday}</span>
+                        <span class="truncate">{data.user_birthDate}</span>
                     </div>
                 {/if}
             </div>
@@ -92,29 +92,30 @@
         {/if}
     </div>
 
-    <div class="max-w-2xl w-full">
-        <Collapse checked={true}>
-            <div class="contents" slot="title">
-                <div class="text-xl font-medium flex items-center gap-2 text-emphasis1 w-full">
-                    <HeartHandshake/>
-                    <h2>{data.owner?'Tus comunidades':'Comunidades en común'}</h2>
+    {#if data.communities}
+        <div class="max-w-2xl w-full">
+            <Collapse checked={true}>
+                <div class="contents" slot="title">
+                    <div class="text-xl font-medium flex items-center gap-2 text-emphasis1 w-full">
+                        <HeartHandshake/>
+                        <h2>{data.owner?'Tus comunidades':'Comunidades en común'}</h2>
+                    </div>
                 </div>
-            </div>
-            <div class="contents" slot="content">
-                <div class="flex flex-col gap-4">
-                    {#each data.communities as community}
-                        <a href="/app/community/{community.id}" class="">
-                            <CommunityCard
-                                    name="{community.name}"
-                                    n_members={community.n_members}
-                                    bannerSrc="{community.banner}"
-                                    adminAvatarSrc="{community.adminAvatarSrc}"
-                            />
-                        </a>
-                    {/each}
+                <div class="contents" slot="content">
+                    <div class="flex flex-col gap-4">
+                        {#each data.communities as community}
+                            <a href="/app/community/{community.community_id}" class="">
+                                <CommunityCard
+                                        name="{community.name}"
+                                        n_members={community.total_members}
+                                        bannerSrc="{community.banner_src}"
+                                        adminAvatarSrc="{community.adminAvatarSrc}"
+                                />
+                            </a>
+                        {/each}
+                    </div>
                 </div>
-            </div>
-        </Collapse>
-
-    </div>
+            </Collapse>
+        </div>
+    {/if}
 </main>
