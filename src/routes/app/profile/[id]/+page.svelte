@@ -8,6 +8,10 @@
     import {check} from '$lib/utils'
     import Collapse from "$lib/components/Collapse.svelte";
     export let data;
+
+    function avatarUrl(avatarSrc:string){
+        return data.supabase.storage.from('Avatars').getPublicUrl(avatarSrc).data.publicUrl;
+    }
 </script>
 
 <main class="p-2 xs:p-4 py-6 flex flex-col gap-4 items-center xl:justify-center xl:items-start xl:flex-row xl:gap-16">
@@ -106,10 +110,10 @@
                         {#each data.communities as community}
                             <a href="/app/community/{community.community_id}" class="">
                                 <CommunityCard
-                                        name="{community.name}"
+                                        name="{community.community_name}"
                                         n_members={community.total_members}
                                         bannerSrc="{community.banner_src}"
-                                        adminAvatarSrc="{community.adminAvatarSrc}"
+                                        adminAvatarSrc="{avatarUrl(community.adminsrc)}"
                                 />
                             </a>
                         {/each}

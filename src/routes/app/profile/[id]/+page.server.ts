@@ -52,13 +52,7 @@ export const load:PageServerLoad = async({ parent, params, locals: {supabase} })
     if (communityData){
         communities=communityData;
     }
-
-    let adminAvatarSrc = null;
-
-    const {data:adminData} = await supabase.from('Memberships').select('memberID, Profiles(*)').eq('role', 'admin').limit(1).single();
-    if (adminData && adminData.Profiles?.avatarSrc){
-        adminAvatarSrc = supabase.storage.from('Avatars').getPublicUrl(adminData.Profiles.avatarSrc).data.publicUrl;
-    }
+    
     return {
         user_id,
         user_name,
@@ -66,8 +60,7 @@ export const load:PageServerLoad = async({ parent, params, locals: {supabase} })
         user_avatarUrl,
         user_biography,
         user_birthDate,
-        adminAvatarSrc,
         owner,
-        communities
+        communities,
     }
 }
