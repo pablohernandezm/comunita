@@ -8,10 +8,6 @@
     import {check} from '$lib/utils'
     import Collapse from "$lib/components/Collapse.svelte";
     export let data;
-
-    function avatarUrl(avatarSrc:string){
-        return data.supabase.storage.from('Avatars').getPublicUrl(avatarSrc).data.publicUrl;
-    }
 </script>
 
 <main class="p-2 xs:p-4 py-6 flex flex-col gap-4 items-center xl:justify-center xl:items-start xl:flex-row xl:gap-16">
@@ -23,7 +19,7 @@
 
             <div class="flex gap-4 items-center relative pt-20 justify-center">
                 <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-8 border-base-100/50">
-                    <Avatar src="{data.user_avatarUrl}" fallBackText="{nameInitials(data.user_name)}" classes="w-[100px] h-[100px]"/>
+                    <Avatar src={data.user_avatarUrl??''} fallBackText="{nameInitials(data.user_name)}" classes="w-[100px] h-[100px]"/>
                 </div>
 
                 <h1 class="text-xl font-bold text-zinc-900 truncate leading-snug">{data.user_name}</h1>
@@ -96,7 +92,7 @@
         {/if}
     </div>
 
-    {#if data.communities}
+    {#if data.communities && data.communities.length>0}
         <div class="max-w-2xl w-full">
             <Collapse checked={true}>
                 <div class="contents" slot="title">
@@ -113,7 +109,7 @@
                                         name="{community.community_name}"
                                         n_members={community.total_members}
                                         bannerSrc="{community.banner_src}"
-                                        adminAvatarSrc="{avatarUrl(community.adminsrc)}"
+                                        adminAvatarSrc="{data.user_avatarUrl??''}"
                                 />
                             </a>
                         {/each}

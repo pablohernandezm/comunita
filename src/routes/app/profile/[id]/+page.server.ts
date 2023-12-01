@@ -14,18 +14,20 @@ export const load:PageServerLoad = async({ parent, params, locals: {supabase} })
     let user_id:string='';
     let user_email:string|undefined|null=null;
     let user_name:string='';
-    let user_avatarUrl:string='';
+    let user_avatarUrl:string|null=null;
     let user_biography:string|null=null;
-    let user_birthDate:string|null='';
+    let user_birthDate:string|null=null;
+    let user_bannerUrl:string|null=null;
     let owner:boolean=false;
 
     if (data.session.user.id=== params.id) {
         user_id = data.session.user.id;
         user_email = data.session.user.email;
         user_name = data.profile.name;
-        user_avatarUrl = data.profile.avatarSrc? supabase.storage.from('Avatars').getPublicUrl(data.profile.avatarSrc).data.publicUrl:'';
+        user_avatarUrl = data.profile.avatarSrc? supabase.storage.from('Avatars').getPublicUrl(data.profile.avatarSrc).data.publicUrl:null;
         user_biography = data.profile.biography;
         user_birthDate = data.profile.birthdate;
+        user_bannerUrl = data.profile.bannerSrc? supabase.storage.from('Banners').getPublicUrl(data.profile.bannerSrc).data.publicUrl:null;
         owner=true;
     } else {
         const { data:profileData } = await supabase.from('Profiles').select('*').eq('id', params.id).limit(1).single();
@@ -38,6 +40,7 @@ export const load:PageServerLoad = async({ parent, params, locals: {supabase} })
             user_avatarUrl = profileData.avatarSrc? supabase.storage.from('Avatars').getPublicUrl(profileData.avatarSrc).data.publicUrl:'';
             user_biography = profileData.biography;
             user_birthDate = profileData.birthdate;
+            user_bannerUrl = profileData.bannerSrc;
         } else {
             throw error(404, {
                 message: 'Usuario no encontrado'
@@ -60,6 +63,7 @@ export const load:PageServerLoad = async({ parent, params, locals: {supabase} })
         user_avatarUrl,
         user_biography,
         user_birthDate,
+        user_bannerUrl,
         owner,
         communities,
     }
