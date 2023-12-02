@@ -131,14 +131,18 @@
                 <div class="contents" slot="content">
                     <div class="flex flex-col gap-4">
                         {#each data.communities as community}
-                            <a href="/app/community/{community.community_id}" class="">
-                                <CommunityCard
-                                        name="{community.community_name}"
-                                        n_members={community.total_members}
-                                        bannerSrc="{community.banner_src}"
-                                        adminAvatarSrc="{data.user_avatarUrl??''}"
-                                />
-                            </a>
+                            {#await data.supabase.storage.from('community_banners').createSignedUrl(community.banner_src, 60)}
+                                loading...
+                            {:then banner}
+                                <a href="/app/community/{community.community_id}" class="">
+                                    <CommunityCard
+                                            name="{community.community_name}"
+                                            n_members={community.total_members}
+                                            bannerSrc={banner? banner.data?.signedUrl:null}
+                                            adminAvatarSrc="{data.user_avatarUrl??''}"
+                                    />
+                                </a>
+                            {/await}
                         {/each}
                     </div>
                 </div>

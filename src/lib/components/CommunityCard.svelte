@@ -6,11 +6,13 @@
     export let name:string;
     export let adminAvatarSrc:string;
     export let n_members:number;
-    export let bannerSrc:string;
+    export let bannerSrc:string|null|undefined;
 </script>
 
 <div class="relative rounded-lg overflow-clip bg-emphasis1 text-white flex-auto">
-    <img class="absolute w-full h-full object-cover z-0 opacity-40 aspect-square" src="{bannerSrc}" alt="Banner">
+    {#if bannerSrc}
+        <img class="absolute w-full h-full object-cover z-0 opacity-40 aspect-square" src="{bannerSrc}" alt="Banner">
+    {/if}
 
     <div class="relative z-10 p-2 flex flex-col px-4 pt-4">
         <div class="flex items-center gap-3 w-full">

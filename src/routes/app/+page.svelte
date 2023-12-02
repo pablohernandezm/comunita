@@ -4,14 +4,32 @@
     import {X, PlusCircle} from 'lucide-svelte'
 
     import CommunityCard from "$lib/components/CommunityCard.svelte";
+    import Toaster, {addToast} from "$lib/components/Toaster.svelte";
+    import {onMount} from "svelte";
+
+    export let form;
+    export let data;
+
+
+    onMount(()=>{
+        if (form && form.message){
+            addToast({
+                data:{
+                    title: form.message,
+                    description: '',
+                    color: 'green'
+                }
+            })
+        }
+    })
+    $:console.info(data.communities)
 </script>
 
 <svelte:head>
     <title>Communicate</title>
 </svelte:head>
-
+<Toaster/>
 <main class="flex flex-col gap-4 m-4">
-
     <section class="bg-white py-4 px-4 rounded-lg">
         <div class="flex gap-4 items-center flex-wrap justify-between">
             <h2 class="flex text-emphasis1 font-bold text-2xl  h-full">Tus comunidades</h2>
@@ -30,7 +48,7 @@
                             Completa la información requerida para crear tu comunidad.
                         </div>
 
-                        <form action="?/create" class="flex flex-col gap-4">
+                        <form method="post" action="?/create" enctype="multipart/form-data" class="flex flex-col gap-4">
                             <fieldset class="flex flex-col gap-1">
                                 <label for="name">Nombre</label>
                                 <input class="brand-input" type="text" name="name" id="name" required>
@@ -41,7 +59,7 @@
                                 <textarea class="brand-input" name="description" id="description" required/>
                             </fieldset>
 
-                            <ImageInput styles="brand-input" emptyText="Sin banner"/>
+                            <ImageInput styles="brand-input" emptyText="Sin banner" name="banner" required={true}/>
 
                             <button type="submit" class="brand-btn">Crear</button>
                         </form>
@@ -53,15 +71,22 @@
         </div>
 
         <div class="flex flex-wrap gap-4 my-4">
-            <a href="app/community/1">
-                <CommunityCard
-                        name="Raíz del destino"
-                        adminAvatarSrc="https://thispersondoesnotexist.com"
-                        n_members={1}
-                        bannerSrc="https://c4.wallpaperflare.com/wallpaper/867/119/831/arbol-naturaleza-roble-viejo-wallpaper-preview.jpg">
-                </CommunityCard>
-            </a>
-
+            {#if data.communities}
+                {#each data.communities as community}
+                    {#await data.supabase.storage.from('community_banners').createSignedUrl(community.banner_src, 60)}
+                        loading...
+                    {:then banner}
+                        <a href="app/community/{community.community_id}" class="flex-1">
+                            <CommunityCard
+                                    name={community.community_name}
+                                    adminAvatarSrc={data.supabase.storage.from('profiles').getPublicUrl(community.adminsrc).data.publicUrl}
+                                    n_members={community.total_members}
+                                    bannerSrc={banner.data? banner.data.signedUrl : null}>
+                            </CommunityCard>
+                        </a>
+                    {/await}
+                {/each}
+            {/if}
         </div>
     </section>
 
