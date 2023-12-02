@@ -76,7 +76,7 @@
                     {#await data.supabase.storage.from('community_banners').createSignedUrl(community.banner_src, 60)}
                         loading...
                     {:then banner}
-                        <a href="app/community/{community.community_id}" class="flex-1">
+                        <a href="app/community/{community.community_id}" class="flex-1 max-w-lg">
                             <CommunityCard
                                     name={community.community_name}
                                     adminAvatarSrc={data.supabase.storage.from('profiles').getPublicUrl(community.adminsrc).data.publicUrl}

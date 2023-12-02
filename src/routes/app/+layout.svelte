@@ -65,7 +65,7 @@
 			<li>
 				<a
 					use:melt={$close}
-					href="/app/logout{data.profile.id}"
+					href="/logout"
 					class="icon-link hover:underline text-emphasis1/90"><LogOut size={16} />Cerrar sessión</a
 				>
 			</li>
