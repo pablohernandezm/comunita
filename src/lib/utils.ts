@@ -41,7 +41,7 @@ export function dateDifference(date:Date):DateDifference{
     };
 }
 
-function getFilesText(fileTextDefault:string, files:FileList|null){
+export function getFilesText(fileTextDefault:string, files:FileList|null){
     let fileText:string=fileTextDefault;
 
     if (files && files?.length>0){
@@ -57,23 +57,6 @@ function getFilesText(fileTextDefault:string, files:FileList|null){
     }
 
     return fileText;
-}
-export function createImageInput(defaultText="Sin imagen"){
-    const text=writable(defaultText);
-    const files:Writable<FileList|null>=writable(null)
-
-    const input = (node:HTMLInputElement) =>{
-        node.addEventListener('change', ()=>{
-            text.update(()=>getFilesText(defaultText, node.files))
-            files.update(()=>node.files)
-        })
-    }
-
-    return {
-        input,
-        text,
-        files,
-    }
 }
 
 export function check(node:HTMLInputElement){

@@ -33,21 +33,11 @@
             })
         }
 
-        if (form.profileError){
-            addToast({
-                data:{
-                    title: 'Error al registrar el perfil.',
-                    description: 'Su perfil no ha sido registrado.',
-                    color: 'red'
-                }
-            })
-        }
-
         if (form.signUpError){
             addToast({
                 data:{
-                    title: `${form.signUpError.name}(${form.signUpError.status})`,
-                    description:form.signUpError.message,
+                    title: form.signUpError.title,
+                    description:form.signUpError.description,
                     color:'red'
                 }
             })

@@ -7,14 +7,41 @@
     import CommunityCard from "$lib/components/CommunityCard.svelte";
     import {check} from '$lib/utils'
     import Collapse from "$lib/components/Collapse.svelte";
+    import Toaster from "$lib/components/Toaster.svelte";
+    import {addToast} from '$lib/components/Toaster.svelte'
+    import {onMount} from "svelte";
+
     export let data;
+    export let form;
+
+    onMount(()=>{
+        if (form && form.message){
+            addToast({
+                data: {
+                    title: form.message,
+                    color: 'green',
+                    description:''
+                }
+            })
+        } else if(form && form.errors){
+            form.errors.forEach((error)=>{
+                addToast({
+                    data:{
+                        title:error,
+                        color: 'red',
+                        description: ''
+                    }
+                })
+            })
+        }
+    })
 </script>
 
 <main class="p-2 xs:p-4 py-6 flex flex-col gap-4 items-center xl:justify-center xl:items-start xl:flex-row xl:gap-16">
-    <div class="flex flex-col gap-4 max-w-2xl">
+    <div class="flex flex-col gap-4 max-w-2xl w-full">
         <div class="bg-base-100 p-8 rounded-2xl z-10 relative overflow-auto">
             <div class= "w-full sm:aspect-[21/9] rounded-lg overflow-hidden bg-emphasis1 relative grid">
-                <enhanced:img src={DefaultBanner} alt="An alt text" class="aspect-[21/9]"/>
+                <img src={data.user_coverUrl??DefaultBanner} alt="An alt text" class="w-full object-cover">
             </div>
 
             <div class="flex gap-4 items-center relative pt-20 justify-center">
@@ -25,7 +52,7 @@
                 <h1 class="text-xl font-bold text-zinc-900 truncate leading-snug">{data.user_name}</h1>
             </div>
 
-            <div class="my-4">
+            <div class="my-4 text-center">
                 {data.user_biography ?? ''}
             </div>
 
@@ -58,31 +85,31 @@
                 </div>
                 <div class="collapse-content px-6 overflow-hidden">
                     <div class="flex flex-col xs:px-10 xs:items-center">
-                        <form action="?modify" class="flex flex-col gap-3 max-w-md xs:w-96">
+                        <form method="post" class="flex flex-col gap-3 max-w-md xs:w-96" enctype="multipart/form-data">
                             <div class="flex flex-col gap-1">
                                 <fieldset class="contents">
                                     <label for="name-input">Nombre</label>
-                                    <input type="text" name="Nombre" id="name-input" class="input input-primary">
+                                    <input type="text" name="name" id="name-input" class="input input-primary" placeholder={data.user_name}>
                                 </fieldset>
                             </div>
 
                             <div class="flex flex-col gap-1">
                                 <fieldset class="contents">
-                                    <label for="biography-input">Nombre</label>
-                                    <textarea name="biography" id="biography-input" class="textarea textarea-primary"></textarea>
+                                    <label for="biography-input">Biografía</label>
+                                    <textarea name="biography" id="biography-input" class="textarea textarea-primary" placeholder={data.user_biography}></textarea>
                                 </fieldset>
                             </div>
 
                             <div class="flex flex-col gap-1">
                                 <fieldset class="contents">
                                     <label for="date-input">Fecha de nacimiento</label>
-                                    <input type="date" class="input input-primary" id="date-input">
+                                    <input name="birthday" type="date" class="input input-primary" id="date-input" placeholder={data.user_birthDate}>
                                 </fieldset>
                             </div>
 
-                            <ImageInput label="Foto de perfil" emptyText="Sin cambios" name="avatar"/>
+                            <ImageInput label="Foto de perfil" emptyText="Sin cambios" name="avatar" inputID="avatar"/>
 
-                            <ImageInput label="Banner" emptyText="Sin cambios" name="banner"/>
+                            <ImageInput label="Portada" emptyText="Sin cambios" name="cover" inputID="portada"/>
 
                             <button type="submit" class="btn btn-primary text-base-100 text-lg">Guardar</button>
                         </form>
@@ -119,3 +146,5 @@
         </div>
     {/if}
 </main>
+
+<Toaster/>

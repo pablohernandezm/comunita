@@ -2,7 +2,7 @@
     import { createToaster, melt } from '@melt-ui/svelte'
     import {X} from "lucide-svelte";
 
-    export let delayS=5;
+    export let delayS=10;
 
     export type ToastData = {
         title: string
@@ -28,7 +28,7 @@
     import { fly } from 'svelte/transition';
 </script>
 
-<div use:portal class="max-w-full fixed bottom-0 right-0 p-2 flex flex-col gap-3">
+<div use:portal class="max-w-full fixed bottom-0 right-0 p-2 flex flex-col gap-3 z-50">
     {#each $toasts as { id, data } (id)}
         <div use:melt={$content(id)}
              animate:flip={{duration:500}}
