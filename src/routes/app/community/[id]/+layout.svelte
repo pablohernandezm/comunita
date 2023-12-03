@@ -24,14 +24,14 @@
     {/if}
 
 
-    <div class="py-6 px-8 flex justify-between flex-col gap-4 sm:flex-row w-full flex-wrap">
+    <div class="py-6 px-8 flex justify-between flex-col gap-4 sm:flex-row w-full flex-wrap sm:items-center">
         <a href="/app/community/{data.communityData.id}">
-            <h1 lang="es" class="text-4xl font-bold text-zinc-900 break-all line-clamp-2">
+            <h1 lang="es" class="text-4xl font-bold text-zinc-900 break-all line-clamp-2 leading-normal">
                 {data.communityData.name}
             </h1>
         </a>
 
-        <div class="flex gap-2 h-fit">
+        <div class="flex gap-2 h-fit ">
            <div class="flex gap-2 flex-wrap">
                <div class="lg:tooltip tooltip-bottom tooltip-info flex-1" data-tip="Configuración">
                    <a href="/app/community/{data.communityData.id}/settings" class="flex bg-rose-400 p-2 rounded-lg text-white items-center gap-1 w-full">
