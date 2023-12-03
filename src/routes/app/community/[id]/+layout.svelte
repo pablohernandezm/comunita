@@ -17,7 +17,7 @@
 <header class="relative bg-white">
     {#if data.communityData.bannerSRC}
         {#await data.supabase.storage.from('community_banners').createSignedUrl(data.communityData.bannerSRC, 60)}
-            loading...
+            <div class="w-full h-60"/>
         {:then banner}
             <img src="{banner.data?.signedUrl}" alt="Banner" class="w-full h-60 object-cover">
         {/await}
