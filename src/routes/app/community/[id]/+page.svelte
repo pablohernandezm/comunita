@@ -25,12 +25,11 @@
         if (posts.length>0){
             index = posts[posts.length-1].created_at;
         }
-
-        //console.info(index, posts)
     }
 
     onMount(()=>{
         loadPosts();
+
         if(form){
             addToast({
                 data:{
@@ -48,13 +47,13 @@
 </svelte:head>
 
 <main class="py-6 px-4 sm:p-6 flex flex-col gap-4 max-w-3xl relative w-full">
-    <div class="flex flex-col gap-4">
-        <div>
-            <Warning user_data={
-            {name:'Pablo José Hernández Meléndez', email:'phernandezm07@gmail.com', avatarSrc:'https://thispersondoesnotexist.com'}} content={{title:"I know you're watching me", body:'"I sat back in my chair looking at the right hand screen. A red dot started moving slowly towards the area where the young girl called from. Watching as it got closer and closer, I wondered if she was okay. Then the dot just stopped. This usually means the responding officer got to the location or close to it. Our map shows streets, but it doesn’t pin point the exact spot."'}
-            }/>
+    {#if data.notice_info}
+        <div class="flex flex-col gap-4">
+            <div>
+                <Warning user_data={data.notice_info.author_info.profile} content={data.notice_info.notice} email={data.notice_info.author_info.email}/>
+            </div>
         </div>
-    </div>
+    {/if}
 
     <div class="flex w-full">
         <PostFormDialog user_data={data.profile} role="{data.role}"/>

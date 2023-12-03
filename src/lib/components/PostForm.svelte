@@ -9,6 +9,8 @@
     export let multipleImages:boolean=false;
     export let textRequired=true;
     export let key:string;
+
+    export let needsTitle:boolean=false;
 </script>
 
 <input type="radio" name="post-tab" role="tab" class="tab" aria-label="{title}" checked/>
@@ -27,6 +29,13 @@
     </div>
 
     <form method="post" action="{formAction}" class="flex flex-col gap-4 py-6" enctype="multipart/form-data">
+        {#if needsTitle}
+            <fieldset class="fieldset">
+                <label for="{key}-body">Título</label>
+                <input type="text" name="title" id="{key}-title" class="input input-primary w-full" required={textRequired}/>
+            </fieldset>
+        {/if}
+
         <fieldset class="fieldset">
             <label for="{key}-body">Escribe algo</label>
             <textarea name="body" id="{key}-body" class="textarea textarea-bordered textarea-primary resize-y w-full" required={textRequired}/>

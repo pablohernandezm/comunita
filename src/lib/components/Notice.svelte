@@ -2,20 +2,11 @@
     import {nameInitials} from "$lib/utils";
     import Avatar from "$lib/components/Avatar.svelte";
     import {AlertTriangle, History} from 'lucide-svelte'
+    import type {Database} from "$lib/database.types";
 
-    interface UserData{
-        name:string
-        email: string
-        avatarSrc?: string
-    }
-
-    interface Content{
-        title:string
-        body:string
-    }
-
-    export let user_data:UserData
-    export let content:Content;
+    export let user_data:Database['public']['Tables']['Profiles']['Row']
+    export let content:Database['public']['Tables']['Notices']['Row'];
+    export let email:string|undefined;
 </script>
 
 <div class="relative">
@@ -39,7 +30,7 @@
                 <div class="overflow-hidden w-full">
                     <strong class="truncate block">{user_data.name}</strong>
                     <p class="text-zinc-700 flex items-center gap-1">
-                        <span class="truncate">{user_data.email}</span>
+                        <span class="truncate">{email}</span>
                     </p>
                 </div>
             </div>

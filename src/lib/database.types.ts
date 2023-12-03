@@ -86,37 +86,40 @@ export interface Database {
       }
       Notices: {
         Row: {
-          authorID: string
+          author_id: string
           body: string
-          communityID: string
+          community_id: string
           created_at: string
-          id: string
+          notice_id: string
+          title: string
         }
         Insert: {
-          authorID: string
+          author_id: string
           body: string
-          communityID: string
+          community_id: string
           created_at?: string
-          id?: string
+          notice_id?: string
+          title: string
         }
         Update: {
-          authorID?: string
+          author_id?: string
           body?: string
-          communityID?: string
+          community_id?: string
           created_at?: string
-          id?: string
+          notice_id?: string
+          title?: string
         }
         Relationships: [
           {
-            foreignKeyName: "Notices_authorID_fkey"
-            columns: ["authorID"]
+            foreignKeyName: "Notices_author_id_fkey"
+            columns: ["author_id"]
             isOneToOne: false
             referencedRelation: "Profiles"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "Notices_communityID_fkey"
-            columns: ["communityID"]
+            foreignKeyName: "Notices_community_id_fkey"
+            columns: ["community_id"]
             isOneToOne: false
             referencedRelation: "Communities"
             referencedColumns: ["id"]
@@ -225,7 +228,17 @@ export interface Database {
         Args: {
           _community_id: string
         }
-        Returns: string
+        Returns: {
+          avatarsrc: string
+        }[]
+      }
+      get_user_email: {
+        Args: {
+          _id: string
+        }
+        Returns: {
+          email: string
+        }[]
       }
       shared_communities: {
         Args: {
@@ -255,6 +268,7 @@ export interface Database {
           n_admins: number
           n_mods: number
           n_regular_members: number
+          adminsrc: string
         }[]
       }
     }

@@ -42,8 +42,9 @@
         {#if role==='admin' || role==='mod'}
             <PostForm title="Aviso"
                       info="Tus avisos serán destacados en la comunidad."
-                      formAction="?/submit-notice"
+                      formAction="?/create_notice"
                       key="2"
+                      needsTitle={true}
             />
         {/if}
     </div>

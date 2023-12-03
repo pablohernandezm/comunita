@@ -1,7 +1,45 @@
 import type {Actions, PageServerLoad} from './$types';
 import {fail, redirect} from "@sveltejs/kit";
 import type {Database} from "$lib/database.types";
-export const load:PageServerLoad = async() =>{
+export const load:PageServerLoad = async({ params, locals:{supabase, getSession}}) =>{
+    const session = await getSession();
+    if (!session){
+        throw redirect(303, '/');
+    }
+
+    const {data:noticeData, error:noticeError} = await supabase.from('Notices').select('*').eq('community_id', params.id).order('created_at', {ascending:false}).limit(1).maybeSingle();
+
+    if (!noticeData ||noticeError){
+        console.info(noticeData, noticeError)
+        return{};
+    }
+
+    const {data:authorEmail, error:authorError} = await supabase.rpc('get_user_email', {_id:noticeData.author_id}).limit(1).maybeSingle();
+
+    if (!authorEmail ||authorError){
+        console.info(authorEmail, authorError)
+        return{};
+    }
+
+    const {data:profileData, error:profileError} = await supabase.from('Profiles').select('*').eq('id', noticeData.author_id).limit(1).maybeSingle();
+    if (!profileData || profileError){
+        console.info(profileData, profileError)
+        return{};
+    }
+
+    if (profileData.avatarSrc){
+        profileData.avatarSrc = supabase.storage.from('profiles').getPublicUrl(profileData.avatarSrc).data.publicUrl;
+    }
+
+    return{
+        notice_info:{
+            notice:noticeData,
+            author_info:{
+                profile:profileData,
+                email:authorEmail.email
+            }
+        }
+    }
 
 }
 
@@ -69,6 +107,42 @@ export const actions:Actions={
         return{
             title:'Subida realizada con éxito',
             message:'',
+            color:'green',
+        }
+    },
+    create_notice: async ({request, params, locals:{supabase, getSession}})=>{
+        const session = await getSession();
+        if (!session){
+            throw redirect(303, '/');
+        }
+
+        const formData = await request.formData();
+
+        const body = formData.get('body') as string;
+        const title = formData.get('title') as string;
+
+        if (body.length>0 && title.length>0){
+            const {error} = await supabase.from('Notices').insert({body:body, community_id:params.id, author_id:session.user.id, title:title})
+
+            if (error){
+                console.error(error);
+                return fail(500, {
+                    title: 'Error del servidor',
+                    message: 'No se pudo publicar el aviso. Inténtelo de nuevo más tarde.',
+                    color: 'red'
+                })
+            }
+        } else{
+            return fail(400, {
+                title: 'Parámetros no válidos.',
+                message: `El título y cuerpo del aviso deben contener texto.`,
+                color:'red'
+            })
+        }
+
+        return {
+            title: 'Aviso publicado con éxito',
+            description: '',
             color:'green',
         }
     }
