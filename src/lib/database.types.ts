@@ -225,9 +225,7 @@ export interface Database {
         Args: {
           _community_id: string
         }
-        Returns: {
-          avatarsrc: string
-        }[]
+        Returns: string
       }
       shared_communities: {
         Args: {
@@ -257,7 +255,6 @@ export interface Database {
           n_admins: number
           n_mods: number
           n_regular_members: number
-          adminsrc: string
         }[]
       }
     }

@@ -8,10 +8,7 @@
     export let formAction:string;
     export let multipleImages:boolean=false;
     export let textRequired=true;
-
     export let key:string;
-    import type {Writable} from "svelte/store";
-    let files:Writable<FileList|null>|undefined;
 </script>
 
 <input type="radio" name="post-tab" role="tab" class="tab" aria-label="{title}" checked/>
@@ -29,7 +26,7 @@
         </div>
     </div>
 
-    <form action="{formAction}" class="flex flex-col gap-4 py-6">
+    <form method="post" action="{formAction}" class="flex flex-col gap-4 py-6" enctype="multipart/form-data">
         <fieldset class="fieldset">
             <label for="{key}-body">Escribe algo</label>
             <textarea name="body" id="{key}-body" class="textarea textarea-bordered textarea-primary resize-y w-full" required={textRequired}/>
@@ -37,13 +34,13 @@
 
         {#if needsFiles}
             <ImageInput
-                    bind:files={files}
                     multiple={multipleImages}
                     label="Añade imágenes"
                     emptyText="Sin imágenes"
-                    containerStyle="flex flex-col gap-2"/>
+                    containerStyle="flex flex-col gap-2"
+                    name="post_images"
+            />
         {/if}
-
         <button type="submit" class="btn btn-primary text-base-100 text-md">
             Publicar
         </button>

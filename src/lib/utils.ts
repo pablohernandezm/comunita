@@ -1,5 +1,3 @@
-import {writable} from "svelte/store";
-import type { Writable } from "svelte/store"
 
 export function nameInitials(name:string){
     const initialsArr = name.split(' ', 2);
@@ -18,16 +16,16 @@ interface DateDifference {
 }
 
 export function dateDifference(date:Date):DateDifference{
-    const dSeconds = Math.abs(((new Date).getTime()-(date.getTime()))/1000);
+    const now = new Date;
 
-    const years = Math.abs((new Date()).getFullYear()-date.getFullYear())
-    const months= Math.abs((((new Date()).getMonth())+1)-(date.getMonth()+1))
+    const seconds = Math.abs(now.getSeconds()-date.getSeconds());
+    const minutes = Math.abs(now.getMinutes()-date.getMinutes());
+    const hours = Math.abs(now.getHours()-date.getHours());
+    const days = Math.abs(now.getDay()-date.getDay());
+    const weeks = Math.ceil(days/7);
 
-    const seconds= dSeconds;
-    const minutes = Math.ceil(dSeconds/60)
-    const hours=Math.ceil(minutes/60)
-    const days = Math.ceil(hours/24)
-    const weeks=Math.ceil(days/7)
+    const months = Math.abs(now.getMonth()-date.getMonth());
+    const years = Math.abs(now.getFullYear()-date.getFullYear());
 
 
     return {

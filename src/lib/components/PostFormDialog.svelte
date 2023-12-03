@@ -4,15 +4,12 @@
     import {nameInitials} from "$lib/utils";
     import {Image, X} from 'lucide-svelte'
     import PostForm from '$lib/components/PostForm.svelte'
+    import type{Database} from '$lib/database.types'
 
-    interface UserData {
-        name:string
-        email: string
-        avatarSrc?: string
-        isAdmin?: true;
-    }
-    export let user_data:UserData;
+    type ProfileData=Database['public']['Tables']['Profiles']['Row'];
 
+    export let user_data:ProfileData;
+    export let role:Database['public']['Enums']['community_role'];
 </script>
 
 
@@ -34,7 +31,7 @@
     <div slot="content" role="tablist" class="tabs tabs-lifted">
         <PostForm title="Publicación"
                   info="Todos pueden ver tus publicaciones."
-                  formAction="?/submit-post"
+                  formAction="?/create_post"
                   needsFiles={true}
                   textRequired={true}
                   key="1"
@@ -42,7 +39,7 @@
         />
 
 
-        {#if user_data.isAdmin}
+        {#if role==='admin' || role==='mod'}
             <PostForm title="Aviso"
                       info="Tus avisos serán destacados en la comunidad."
                       formAction="?/submit-notice"

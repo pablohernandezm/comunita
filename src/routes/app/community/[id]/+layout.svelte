@@ -10,15 +10,24 @@
         elements: { root, content, trigger },
         states: { open },
     } = createCollapsible();
+
+    let created_at=(new Date(data.communityData.created_at)).toLocaleDateString();
 </script>
 
 <header class="relative bg-white">
-    <img src="{data.communityData.bannerSrc}" alt="Banner" class="w-full h-60 object-cover">
+    {#if data.communityData.bannerSRC}
+        {#await data.supabase.storage.from('community_banners').createSignedUrl(data.communityData.bannerSRC, 60)}
+            loading...
+        {:then banner}
+            <img src="{banner.data?.signedUrl}" alt="Banner" class="w-full h-60 object-cover">
+        {/await}
+    {/if}
+
 
     <div class="py-6 px-8 flex justify-between flex-col gap-4 sm:flex-row w-full flex-wrap">
         <a href="/app/community/{data.communityData.id}">
             <h1 lang="es" class="text-4xl font-bold text-zinc-900 break-all line-clamp-2">
-                {data.communityData.community_name}
+                {data.communityData.name}
             </h1>
         </a>
 
@@ -66,16 +75,16 @@
 
                 <div class="flex gap-2 items-center">
                     <CalendarDays/>
-                    {data.communityData.creation_date.toLocaleDateString()}
+                    {created_at}
                 </div>
             </div>
         {/if}
     </div>
 </header>
 
-<div class="grid justify-items-center xl:grid-cols-[2fr_1fr]">
-    <div class="p-6 max-w-lg-full order-1 hidden xl:flex xl:order-2">
-        <div class="h-full relative">
+<div class="grid justify-items-center xl:grid-cols-[2.5fr_1fr]">
+    <div class="p-6 max-w-lg-full order-1 hidden xl:flex xl:order-2 w-full">
+        <div class="h-full relative w-full">
             <div class="sticky top-8 flex flex-col gap-4">
                 <Collapse checked={true}>
                     <div class="contents" slot="title">
@@ -91,7 +100,7 @@
 
                             <div class="flex gap-2 items-center">
                                 <CalendarDays/>
-                                {data.communityData.creation_date.toLocaleDateString()}
+                                {created_at}
                             </div>
                         </div>
                     </div>
