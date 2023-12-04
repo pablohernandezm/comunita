@@ -110,5 +110,41 @@
                 </form>
             </li>
         {/each}
+
+        {#if user_role==='admin' || (user_role==='mod' && member_role==='regular')}
+            <li use:melt={$item}>
+                <form method="post" action='?/remove_member' class="flex flex-col text-red-600 hover:text-red-600 hover:bg-rose-100 border-warning border" use:enhance={()=>{
+                    return async ({result})=>{
+                        if (result.type==='success') {
+                            await invalidateAll();
+
+                            addToast({
+                                data:{
+                                    title:'Miembro expulsado con éxito',
+                                    color:'green'
+                                }
+                            });
+                        }
+                        else if (result.type==='failure'){
+                            if (result.data){
+                                addToast({
+                                    data:{
+                                        title:'Error',
+                                        description: 'No se pudo ejecutar la expulsión',
+                                        color:'red'
+                                    }
+                                })
+                            }
+                            console.error(result.data)
+                        }
+                    }
+                }}>
+                    <input type="text" name="member_id" hidden value={member_id}>
+                    <button class="flex gap-2 items-center">
+                        <span>Expulsar</span>
+                    </button>
+                </form>
+            </li>
+        {/if}
     </ul>
 {/if}

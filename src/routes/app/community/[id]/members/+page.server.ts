@@ -71,5 +71,28 @@ export const actions:Actions={
             message:'Rol actualizado con éxito',
             new_role: data.new_role
         }
+    },
+
+    remove_member: async({request, params, locals:{supabase, getSession}})=>{
+        const session = await getSession();
+        if (!session){
+            throw redirect(303, '/');
+        }
+
+        const formData = await request.formData();
+
+        const member_id = formData.get('member_id') as string;
+
+        const {error} = await supabase.from('Memberships').delete().eq('member_id', member_id).eq('community_id', params.id);
+
+        if (error){
+            return fail(500, {
+                error: 'No se pudo expulsar el miembro'
+            })
+        }
+
+        return {
+            message:'Miembro expulsado con éxito.'
+        }
     }
 }
