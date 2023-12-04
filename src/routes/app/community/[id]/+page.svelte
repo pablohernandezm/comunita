@@ -13,6 +13,7 @@
     let posts:PostRow=[];
 
     let index=moment().utc().toISOString();
+    let loading=false;
 
     async function loadPosts(){
         const {data:postData} = await data.supabase.rpc('get_posts', {_index:index, _community_id:data.communityData.id});
@@ -24,10 +25,12 @@
         if (posts.length>0){
             index = posts[posts.length-1].created_at;
         }
+
+        loading=false;
     }
 
-    onMount(()=>{
-        loadPosts();
+    onMount(async ()=>{
+        await loadPosts();
 
         if(form){
             addToast({
@@ -38,6 +41,21 @@
                 }
             })
         }
+
+        window.addEventListener('scroll', async () => {
+            const {
+                scrollTop,
+                scrollHeight,
+                clientHeight
+            } = document.documentElement;
+
+            if (!loading && scrollTop + clientHeight >= scrollHeight) {
+                loading=true;
+                await loadPosts();
+            }
+        }, {
+            passive: true
+        });
     })
 </script>
 
