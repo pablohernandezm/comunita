@@ -6,7 +6,7 @@
 
     export type ToastData = {
         title: string
-        description: string
+        description?: string
         color: string
     }
 
@@ -42,9 +42,11 @@
                         <h3 class="truncate">{data.title}</h3>
                     </div>
 
-                    <div use:melt={$description(id)} class="whitespace-pre-wrap">
-                        {data.description}
-                    </div>
+                    {#if data.description}
+                        <div use:melt={$description(id)} class="whitespace-pre-wrap">
+                            {data.description}
+                        </div>
+                    {/if}
                 </div>
 
                 <button use:melt={$close(id)} aria-label="Cerrar notificación" class="absolute top-2 right-2">

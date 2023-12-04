@@ -22,7 +22,6 @@
             })
         }
     })
-    $:console.info(data.communities)
 </script>
 
 <svelte:head>

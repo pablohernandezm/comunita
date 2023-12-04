@@ -1,6 +1,7 @@
 import type {Actions, PageServerLoad} from './$types';
 import {fail, redirect} from "@sveltejs/kit";
 import type {Database} from "$lib/database.types";
+
 export const load:PageServerLoad = async({ params, locals:{supabase, getSession}}) =>{
     const session = await getSession();
     if (!session){
@@ -110,6 +111,7 @@ export const actions:Actions={
             color:'green',
         }
     },
+
     create_notice: async ({request, params, locals:{supabase, getSession}})=>{
         const session = await getSession();
         if (!session){

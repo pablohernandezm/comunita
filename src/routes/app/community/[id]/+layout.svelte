@@ -3,6 +3,9 @@
     import Collapse from "$lib/components/Collapse.svelte";
     import { createCollapsible, melt } from '@melt-ui/svelte';
     import {slide} from "svelte/transition";
+    import {copy} from "$lib/utils";
+    import Toaster, {addToast} from "$lib/components/Toaster.svelte";
+    import {page} from "$app/stores";
 
     export let data;
 
@@ -12,8 +15,24 @@
     } = createCollapsible();
 
     let created_at=(new Date(data.communityData.created_at)).toLocaleDateString();
-</script>
 
+    function copyLink(){
+        if (data.link){
+            const status=copy(`${$page.url.origin}/app/community/link/${data.link.access_code}`)
+
+            if (status){
+                addToast({
+                    data:{
+                        title:status.title,
+                        description:status.description??'',
+                        color:status.color
+                    }
+                })
+            }
+        }
+    }
+</script>
+<Toaster/>
 <header class="relative bg-white">
     {#if data.communityData.bannerSRC}
         {#await data.supabase.storage.from('community_banners').createSignedUrl(data.communityData.bannerSRC, 60)}
@@ -33,19 +52,24 @@
 
         <div class="flex gap-2 h-fit ">
            <div class="flex gap-2 flex-wrap">
-               <div class="lg:tooltip tooltip-bottom tooltip-info flex-1" data-tip="Configuración">
-                   <a href="/app/community/{data.communityData.id}/settings" class="flex bg-rose-400 p-2 rounded-lg text-white items-center gap-1 w-full">
-                       <Settings size={20}/>
-                       <span class="hidden md:inline">Configuración</span>
-                   </a>
-               </div>
+               {#if data.role.toLowerCase()==='admin'}
+                   <div class="lg:tooltip tooltip-bottom tooltip-info flex-1" data-tip="Configuración">
+                       <a href="/app/community/{data.communityData.id}/settings" class="flex bg-rose-400 p-2 rounded-lg text-white items-center gap-1 w-full">
+                           <Settings size={20}/>
+                           <span class="hidden md:inline">Configuración</span>
+                       </a>
+                   </div>
+               {/if}
 
-               <div class="lg:tooltip tooltip-bottom tooltip-info flex-1" data-tip="Compartir">
-                   <button class="bg-rose-400 p-2 rounded-lg text-white flex gap-1 items-center w-full">
-                       <Link size={20}/>
-                       <span class="hidden md:inline">Enlaces</span>
-                   </button>
-               </div>
+
+               {#if data.link}
+                   <div class="lg:tooltip tooltip-bottom tooltip-info flex-1" data-tip="Compartir">
+                       <button class="bg-rose-400 p-2 rounded-lg text-white flex gap-1 items-center w-full" on:click={copyLink}>
+                           <Link size={20}/>
+                           <span class="hidden md:inline">Enlace</span>
+                       </button>
+                   </div>
+               {/if}
 
                <div class="lg:tooltip tooltip-bottom tooltip-info flex-1" data-tip="Miembros">
                    <a href="/app/community/{data.communityData.id}/members" class="flex bg-rose-400 p-2 rounded-lg text-white items-center gap-1 w-full">

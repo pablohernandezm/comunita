@@ -45,6 +45,35 @@ export interface Database {
         }
         Relationships: []
       }
+      community_links: {
+        Row: {
+          access_code: string
+          community_id: string
+          id: string
+          modified_at: string
+        }
+        Insert: {
+          access_code: string
+          community_id: string
+          id?: string
+          modified_at?: string
+        }
+        Update: {
+          access_code?: string
+          community_id?: string
+          id?: string
+          modified_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_links_community_id_fkey"
+            columns: ["community_id"]
+            isOneToOne: true
+            referencedRelation: "Communities"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       Memberships: {
         Row: {
           community_id: string
@@ -211,6 +240,12 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      access_code: {
+        Args: {
+          _access_code: string
+        }
+        Returns: Record<string, unknown>
+      }
       delete_profile_object: {
         Args: {
           object_url: string

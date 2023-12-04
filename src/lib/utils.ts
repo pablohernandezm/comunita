@@ -64,3 +64,34 @@ export function check(node:HTMLInputElement){
         }
     }
 }
+
+interface ToastData{
+    title:string,
+    description?:string,
+    color:string,
+}
+export function copy(text:string):ToastData{
+
+    if (!navigator.clipboard){
+        return {
+            title:'Error al copiar.',
+            color:'red'
+        };
+    }
+
+    const blob = new Blob([text], { type: 'text/plain' });
+
+    const clipboardItem = new ClipboardItem({ 'text/plain': blob });
+
+    navigator.clipboard.write([clipboardItem]).catch(() => {
+        return{
+            title:'Error al copiar',
+            color:'red',
+        }
+    });
+
+    return{
+        title:'Copiado al portapapeles',
+        color:'green'
+    }
+}

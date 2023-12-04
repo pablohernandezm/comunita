@@ -4,7 +4,7 @@
     import PostFormDialog from '$lib/components/PostFormDialog.svelte'
     import type {Database} from '$lib/database.types';
     import {onMount} from "svelte";
-    import Toaster, {addToast} from "$lib/components/Toaster.svelte";
+    import {addToast} from "$lib/components/Toaster.svelte";
     export let data;
     export let form;
 
@@ -41,7 +41,7 @@
         }
     })
 </script>
-<Toaster/>
+
 <svelte:head>
     <title>{data.communityData.name}</title>
 </svelte:head>
