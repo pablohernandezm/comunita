@@ -275,6 +275,18 @@ export interface Database {
           avatarsrc: string
         }[]
       }
+      get_members_data_list: {
+        Args: {
+          _community_id: string
+        }
+        Returns: {
+          id: string
+          email: string
+          name: string
+          avatar_src: string
+          role: Database["public"]["Enums"]["community_role"]
+        }[]
+      }
       get_posts: {
         Args: {
           _index: string
