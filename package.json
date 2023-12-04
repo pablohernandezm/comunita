@@ -40,6 +40,7 @@
 		"@supabase/ssr": "^0.0.10",
 		"@supabase/supabase-js": "^2.38.5",
 		"lucide-svelte": "^0.292.0",
+		"moment": "^2.29.4",
 		"svelte-carousel": "^1.0.25",
 		"valibot": "^0.21.0"
 	}

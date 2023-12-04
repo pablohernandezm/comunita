@@ -240,12 +240,20 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      access_code: {
-        Args: {
-          _access_code: string
-        }
-        Returns: Record<string, unknown>
-      }
+      access_code:
+        | {
+            Args: {
+              _access_code: string
+            }
+            Returns: string
+          }
+        | {
+            Args: {
+              _access_code: string
+              _user_id: string
+            }
+            Returns: string
+          }
       delete_profile_object: {
         Args: {
           object_url: string
@@ -265,6 +273,21 @@ export interface Database {
         }
         Returns: {
           avatarsrc: string
+        }[]
+      }
+      get_posts: {
+        Args: {
+          _index: string
+          _community_id: string
+        }
+        Returns: {
+          author_id: string
+          avatar_src: string
+          name: string
+          post_id: string
+          body: string
+          images_src: string[]
+          created_at: string
         }[]
       }
       get_user_email: {

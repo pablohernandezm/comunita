@@ -7,10 +7,11 @@
     import type {SupabaseClient} from "@supabase/supabase-js";
     import {onMount} from "svelte";
 
-    export let user_data:Database['public']['Tables']['Profiles']['Row'];
-    export let post_data:Database['public']['Tables']['Posts']['Row'];
-
+    type PostData = Database['public']['Functions']['get_posts']['Returns']
+    export let post_data:PostData[number];
     export let supabase:SupabaseClient<Database>
+
+    const avatarUrl = post_data.avatar_src? supabase.storage.from('profiles').getPublicUrl(post_data.avatar_src).data.publicUrl:'';
 
     let diff =  dateDifference(new Date(post_data.created_at))
     let diffString:string;
@@ -39,10 +40,10 @@
 
 <div class="bg-white p-6 flex flex-col rounded-lg max-w-screen-md">
     <div class="flex gap-1 items-center">
-        <Avatar src="{user_data.avatarSrc??''}" fallBackText={nameInitials(user_data.name)} />
+        <Avatar src="{avatarUrl}" fallBackText={nameInitials(post_data.name)} />
 
         <div>
-            <strong>{user_data.name}</strong>
+            <strong>{post_data.name}</strong>
             <p class="text-zinc-700 flex items-center gap-1">
                 <Clock size={16}/>
                 <span>Hace {diffString}</span>
@@ -54,21 +55,21 @@
         <div class="{seeMore?'':'line-clamp-4'} gap-4" bind:this={contentArea}>
             {post_data.body}
 
-            {#if post_data.imagesSRC && post_data.imagesSRC.length>0}
+            {#if post_data.images_src && post_data.images_src.length>0}
                 <div class="flex flex-col relative items-center mt-8 mb-8">
                     <div class="carousel carousel-center bg-neutral rounded-box max-w-md">
-                        {#each post_data.imagesSRC as image, i}
+                        {#each post_data.images_src as image, i}
                             {#await supabase.storage.from('community_posts').createSignedUrl(image, 360)}
                                 loading...
                             {:then src}
-                                <div id="{post_data.id}-img{i}" class="carousel-item relative overflow-hidden w-full flex justify-center">
+                                <div id="{post_data.post_id}-img{i}" class="carousel-item relative overflow-hidden w-full flex justify-center">
                                     <img src={src.data?.signedUrl} alt="Post image {i}" class="rounded-box max-w-md w-auto max-h-96">
 
-                                    <a tabindex="-1" href="#{post_data.id}-img{(i+1)>=post_data.imagesSRC.length ? 0 : i+1}" class="text-white bg-black absolute right-1 top-1/2 translucid-btn">
+                                    <a tabindex="-1" href="#{post_data.post_id}-img{(i+1)>=post_data.images_src.length ? 0 : i+1}" class="text-white bg-black absolute right-1 top-1/2 translucid-btn">
                                         <ArrowRightCircle/>
                                     </a>
 
-                                    <a tabindex="-1" href="#{post_data.id}-img{(i-1)<0 ? post_data.imagesSRC.length-1 : i-1}" class="text-white bg-black absolute left-1 top-1/2 translucid-btn">
+                                    <a tabindex="-1" href="#{post_data.post_id}-img{(i-1)<0 ? post_data.images_src.length-1 : i-1}" class="text-white bg-black absolute left-1 top-1/2 translucid-btn">
                                         <ArrowLeftCircle/>
                                     </a>
                                 </div>
