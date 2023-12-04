@@ -56,6 +56,10 @@
     })
 </script>
 
+<svelte:head>
+    <title>{`Configuración - ${data.communityData.name}`}</title>
+</svelte:head>
+
 <main class="p-2 xs:p-4 flex flex-col gap-4 items-center w-full max-w-3xl">
     {#if data.role.toLowerCase()==='admin' || data.role.toLowerCase()==='mod'}
         <Collapse checked={false}>

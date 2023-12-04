@@ -36,6 +36,9 @@
         }
     })
 </script>
+<svelte:head>
+    <title>{data.user_name}</title>
+</svelte:head>
 
 <main class="p-2 xs:p-4 py-6 flex flex-col gap-4 items-center xl:justify-center xl:items-start xl:flex-row xl:gap-16">
     <div class="flex flex-col gap-4 max-w-2xl w-full">
