@@ -12,7 +12,6 @@ export const load:PageLoad= async({ parent } )=>{
     let communities:Database['public']['Functions']['user_communities']['Returns'] | undefined=undefined;
     const {data} = await supabase.rpc('user_communities')
 
-    console.info(data);
     if (data){
         communities=data;
     }

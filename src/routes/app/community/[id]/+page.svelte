@@ -11,15 +11,13 @@
 
     type PostRow=Database['public']['Functions']['get_posts']['Returns'];
     let posts:PostRow=[];
+
     let index=moment().utc().toISOString();
-    console.log(index);
-    console.log(data.communityData.id)
 
     async function loadPosts(){
         const {data:postData} = await data.supabase.rpc('get_posts', {_index:index, _community_id:data.communityData.id});
-        console.info(postData)
+
         if (postData!==null){
-            console.info(postData[0].author_id)
             posts=posts.concat(postData);
         }
 
