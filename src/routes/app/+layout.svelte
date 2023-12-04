@@ -28,9 +28,9 @@
 	</a>
 
 	<div class="flex">
-		<button type="button" class="flex-shrink-0">
+		<!--<button type="button" class="flex-shrink-0">
 			<img src="/bell.svg" alt="Notificaciones" class="w-10 h-10" />
-		</button>
+		</button>-->
 
 		<button type="button" aria-label="Opciones de usuario" use:melt={$trigger}>
 			<Avatar src={data.profile.avatarSrc ?? ''} fallBackText={initials}></Avatar>

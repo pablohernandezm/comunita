@@ -1,5 +1,6 @@
 <script>
     import Avatar from "$lib/components/Avatar.svelte";
+    import MemberMenu from "./MemberMenu.svelte";
 
     export let data;
 </script>
@@ -16,6 +17,7 @@
                     <th>Nombre</th>
                     <th>Correo</th>
                     <th>Rol</th>
+                    <th></th>
                 </tr>
                 </thead>
 
@@ -35,6 +37,9 @@
                                 {:else}
                                     Miembro
                                 {/if}
+                            </td>
+                            <td>
+                                <MemberMenu member_role={item.role} user_role={data.role} member_id={item.id}/>
                             </td>
                         </tr>
                     {/each}

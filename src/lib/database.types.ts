@@ -254,6 +254,15 @@ export interface Database {
             }
             Returns: string
           }
+      ascend_role: {
+        Args: {
+          _member_id: string
+          _community_id: string
+        }
+        Returns: {
+          new_role: Database["public"]["Enums"]["community_role"]
+        }[]
+      }
       delete_profile_object: {
         Args: {
           object_url: string
@@ -266,6 +275,15 @@ export interface Database {
           object: string
         }
         Returns: Record<string, unknown>
+      }
+      descend_role: {
+        Args: {
+          _member_id: string
+          _community_id: string
+        }
+        Returns: {
+          new_role: Database["public"]["Enums"]["community_role"]
+        }[]
       }
       get_admin_avatar: {
         Args: {
