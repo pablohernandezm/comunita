@@ -1,5 +1,6 @@
 <script lang="ts">
     import Logo from "$lib/components/Logo.svelte";
+    export let aria_label='Abre el modal';
 
     let dialog: HTMLDialogElement;
 
@@ -17,7 +18,8 @@
     }
 </script>
 
-<button type="button" class="w-full bg-base-100  rounded-lg hover:scale-[101%] focus:scale-[101%]" on:click={handleOpen}>
+<button type="button" class="w-full bg-base-100  rounded-lg hover:scale-[101%] focus:scale-[101%]" aria-label={aria_label
+} on:click={handleOpen}>
     <slot name="trigger"/>
 </button>
 

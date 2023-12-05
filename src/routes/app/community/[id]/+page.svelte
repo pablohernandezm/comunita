@@ -59,10 +59,6 @@
     })
 </script>
 
-<svelte:head>
-    <title>{data.communityData.name}</title>
-</svelte:head>
-
 <main class="py-6 px-4 sm:p-6 flex flex-col gap-4 max-w-3xl relative w-full">
     {#if data.notice_info}
         <div class="flex flex-col gap-4">

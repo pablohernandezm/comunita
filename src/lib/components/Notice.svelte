@@ -14,7 +14,7 @@
 
         <summary class="collapse-title text-lg text-warning gap-2">
             <AlertTriangle class="flex-shrink-0 my-0.5"/>
-            <span>
+            <span class="font-bold">
                 {content.title}
             </span>
         </summary>
@@ -39,7 +39,7 @@
 
     <div class="absolute bottom-2 right-2">
         <div class="relative tooltip tooltip-left w-fit" data-tip="Ver historial de advertencias">
-            <a href="/">
+            <a href="/" aria-label="Accede al historial de advertencias de la comunidad">
                 <History/>
             </a>
         </div>

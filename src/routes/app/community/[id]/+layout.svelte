@@ -32,6 +32,12 @@
         }
     }
 </script>
+
+<svelte:head>
+    <title>{data.communityData.name}</title>
+    <meta name="description" content={data.communityData.description}/>
+</svelte:head>
+
 <Toaster/>
 <header class="relative bg-white">
     {#if data.communityData.bannerSRC}
@@ -44,7 +50,7 @@
 
 
     <div class="py-6 px-8 flex justify-between flex-col gap-4 sm:flex-row w-full flex-wrap sm:items-center">
-        <a href="/app/community/{data.communityData.id}">
+        <a href="/app/community/{data.communityData.id}" aria-label="Accede a la página principal de {data.communityData.name}">
             <h1 lang="es" class="text-4xl font-bold text-zinc-900 break-all line-clamp-2 leading-normal">
                 {data.communityData.name}
             </h1>
@@ -54,7 +60,7 @@
            <div class="flex gap-2 flex-wrap">
                {#if data.role.toLowerCase()==='admin'}
                    <div class="lg:tooltip tooltip-bottom tooltip-info flex-1" data-tip="Configuración">
-                       <a href="/app/community/{data.communityData.id}/settings" class="flex bg-rose-400 p-2 rounded-lg text-white items-center gap-1 w-full">
+                       <a href="/app/community/{data.communityData.id}/settings" aria-label="Accede a la configuración de la comunidad" class="flex bg-rose-400 p-2 rounded-lg text-white items-center gap-1 w-full">
                            <Settings size={20}/>
                            <span class="hidden md:inline">Configuración</span>
                        </a>
@@ -64,7 +70,7 @@
 
                {#if data.link}
                    <div class="lg:tooltip tooltip-bottom tooltip-info flex-1" data-tip="Compartir">
-                       <button class="bg-rose-400 p-2 rounded-lg text-white flex gap-1 items-center w-full" on:click={copyLink}>
+                       <button class="bg-rose-400 p-2 rounded-lg text-white flex gap-1 items-center w-full" aria-label="Copiar enlace de la comunidad" on:click={copyLink}>
                            <Link size={20}/>
                            <span class="hidden md:inline">Enlace</span>
                        </button>
@@ -72,14 +78,14 @@
                {/if}
 
                <div class="lg:tooltip tooltip-bottom tooltip-info flex-1" data-tip="Miembros">
-                   <a href="/app/community/{data.communityData.id}/members" class="flex bg-rose-400 p-2 rounded-lg text-white items-center gap-1 w-full">
+                   <a href="/app/community/{data.communityData.id}/members" aria-label="Mira la lista de usuarios de la comunidad" class="flex bg-rose-400 p-2 rounded-lg text-white items-center gap-1 w-full">
                        <Users size={20}/>
                        <span class="hidden md:inline">Miembros</span>
                    </a>
                </div>
 
                <div class="flex items-center xl:hidden">
-                   <button class="text-emphasis1 w-full" use:melt={$trigger}>
+                   <button class="text-emphasis1 w-full" aria-label="Abrir información avanzada de la comunidad" use:melt={$trigger}>
                        {#if $open}
                            <ChevronUpSquare size={30}/>
                        {:else}

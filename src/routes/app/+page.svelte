@@ -33,7 +33,7 @@
         <div class="flex gap-4 items-center flex-wrap justify-between">
             <h2 class="flex text-emphasis1 font-bold text-2xl  h-full">Tus comunidades</h2>
             <div class="text-rose-400 flex items-center">
-                <Dialog>
+                <Dialog aria_label="Crea una comunidad">
                     <PlusCircle size={30} slot="trigger"/>
 
                     <X size={16} slot="close"/>
@@ -50,7 +50,7 @@
                         <form method="post" action="?/create" enctype="multipart/form-data" class="flex flex-col gap-4">
                             <fieldset class="flex flex-col gap-1">
                                 <label for="name">Nombre</label>
-                                <input class="brand-input" type="text" name="name" id="name" required>
+                                <input class="brand-input" type="text" name="name" id="name" required autocomplete="off">
                             </fieldset>
 
                             <fieldset class="flex flex-col gap-1">
@@ -60,7 +60,7 @@
 
                             <ImageInput styles="brand-input" emptyText="Sin banner" name="banner" required={true}/>
 
-                            <button type="submit" class="brand-btn">Crear</button>
+                            <button type="submit" class="brand-btn" aria-label="Crear comunidad">Crear</button>
                         </form>
                     </div>
                 </Dialog>

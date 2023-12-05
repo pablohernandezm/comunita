@@ -16,9 +16,11 @@
 		forceVisible: true
 	});
 </script>
-
+<svelte:head>
+	<meta name="description" content="Únete, crea y administra comunidades con Comunita."/>
+</svelte:head>
 <header class="flex justify-between px-8 py-4 bg-white shadow-gray-200 shadow z-50 relative">
-	<a href="/app" aria-label="Logo" class="flex items-center gap-2">
+	<a href="/app" aria-label="Comunita logo" class="flex items-center gap-2">
 		<Logo size={36} />
 		<span
 			class="hidden text-3xl text-primary xs:inline-block bg-gradient-to-tr from-primary to-[#FFB033] via-primary text-transparent bg-clip-text font-DMSans lowercase"

@@ -22,7 +22,7 @@
         <span class="flex items-center w-full justify-between gap-4">
             <input tabindex="-1" readonly name="create-trap" type="text" class="input input-ghost border-base-300 w-full flex-grow truncate" placeholder="Crear una publicación" autocomplete="off">
 
-            <button type="button" class="btn btn-neutral bg-base-100 border-none text-base-300 hover:text-base-100">
+            <button type="button" class="btn btn-neutral bg-base-100 border-none text-base-300 hover:text-base-100" aria-label="Añade imágenes a las publicaciones">
                 <Image/>
             </button>
         </span>

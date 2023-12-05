@@ -92,7 +92,7 @@
                             <div class="flex flex-col gap-1">
                                 <fieldset class="contents">
                                     <label for="name-input">Nombre</label>
-                                    <input type="text" name="name" id="name-input" class="input input-primary" placeholder={data.user_name}>
+                                    <input type="text" name="name" id="name-input" class="input input-primary" placeholder={data.user_name} autocomplete="name"/>
                                 </fieldset>
                             </div>
 
